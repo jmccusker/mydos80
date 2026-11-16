@@ -1,0 +1,77 @@
+name: Hardware compatibility report
+description: An attempt on a real TRS-80 or a floppy emulator such as a Gotek, successful or not.
+title: "[Hardware] "
+labels: ["real-hardware", "needs-reproduction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for testing on real hardware. Failed or unexpected results are just as
+        useful as successes. **Use only disposable media**: never write, delete or format
+        on an original or irreplaceable disk, image or drive. Please do not upload ROM
+        images or copies of commercial DOS disks; describe them instead.
+  - type: input
+    id: version
+    attributes:
+      label: MyDOS/80 version and disk image
+      placeholder: 0.10 RC3, MyDOS80-System.dmk
+    validations:
+      required: true
+  - type: dropdown
+    id: model
+    attributes:
+      label: Machine
+      options:
+        - Model III
+        - Model 4 (non-gate-array)
+        - Model 4 gate array (4GA)
+        - Model 4P
+        - Model 4D
+        - Not sure / other
+    validations:
+      required: true
+  - type: input
+    id: rom
+    attributes:
+      label: ROM configuration, if known
+      description: Original or replacement ROM, version, any modifications. For a 4P, which DOS disk supplied MODELA/III (name and version only).
+  - type: input
+    id: fdc
+    attributes:
+      label: Floppy controller, if known
+      description: Original controller board, or any replacement or modification.
+  - type: textarea
+    id: drives
+    attributes:
+      label: Drive and media
+      description: Drive make and model, 40 or 80 track, single or double sided, or a floppy emulator (model and firmware); media brand and density.
+    validations:
+      required: true
+  - type: textarea
+    id: writing
+    attributes:
+      label: How the image was written
+      description: The hardware and software used (e.g. Greaseweazle, KryoFlux, a Gotek), the tool version, and the exact command; the DMK-to-HFE (or other) conversion method, if any.
+    validations:
+      required: true
+  - type: textarea
+    id: readback
+    attributes:
+      label: Readback results, if available
+      description: Did you read the disk back after writing? Any errors (track, sector)? Writing drive speed (rpm), if measured.
+  - type: dropdown
+    id: media
+    attributes:
+      label: Media used
+      options:
+        - Expendable media only
+        - Original or irreplaceable media were involved
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What happened
+      description: How far it got, the exact screen text (a photo of the screen helps), and what you tried. Successes are welcome too.
+    validations:
+      required: true

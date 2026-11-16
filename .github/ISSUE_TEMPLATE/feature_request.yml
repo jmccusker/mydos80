@@ -1,0 +1,40 @@
+name: Feature request
+description: Something you would like MyDOS/80 to do.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas are welcome. MyDOS/80 is evaluated in emulators today; please say which
+        machine and situation your idea is for.
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like MyDOS/80 to do?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why, and how would you use it?
+      description: The task you are trying to do, and how you do it today (in MyDOS/80 or another DOS).
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Shell and commands
+        - Native filesystem (MNFS)
+        - Traditional DOS disks and programs
+        - SETUP and packages
+        - Model 4 / 4P support
+        - Documentation
+        - Other
+  - type: input
+    id: version
+    attributes:
+      label: MyDOS/80 version you tried
+      placeholder: 0.10 RC3

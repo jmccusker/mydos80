@@ -1,0 +1,103 @@
+name: Bug report
+description: Something did not work as the documentation says.
+title: "[Bug] "
+labels: ["bug", "needs-reproduction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! A failure or an unexpected result is just as useful as a success.
+        Please start from fresh copies of the release's disk images, and do not attach
+        ROM images or copies of commercial DOS disks (describe them instead).
+  - type: input
+    id: version
+    attributes:
+      label: MyDOS/80 version
+      description: The top line of the boot screen, e.g. "0.10 RC3".
+      placeholder: 0.10 RC3
+    validations:
+      required: true
+  - type: dropdown
+    id: model
+    attributes:
+      label: TRS-80 model
+      options:
+        - Model III
+        - Model 4 (Model III mode)
+        - Model 4P (Model III mode)
+        - Other or not sure
+    validations:
+      required: true
+  - type: input
+    id: emulator
+    attributes:
+      label: Emulator and version
+      description: For example "trs80gp 2.5.8". Write "real hardware" if not an emulator (and consider the hardware form).
+    validations:
+      required: true
+  - type: dropdown
+    id: host
+    attributes:
+      label: Host operating system
+      options:
+        - Windows
+        - Linux
+        - macOS
+        - Other / not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: disks
+    attributes:
+      label: Disk images
+      description: Which image was in which drive (:0 to :3), and were they fresh copies?
+      placeholder: |
+        :0 MyDOS80-System.dmk (fresh copy)
+        :1 MyDOS80-Practice.dmk
+    validations:
+      required: true
+  - type: input
+    id: exercise
+    attributes:
+      label: Guided Tour exercise, if any
+      placeholder: e.g. Exercise 6.4
+  - type: textarea
+    id: steps
+    attributes:
+      label: Commands and actions, from a fresh start
+      description: One per line, exactly as typed, including emulator actions (e.g. "Diskette, drive 3, Replace...").
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: messages
+    attributes:
+      label: Error messages and screen text
+      description: Copy any message exactly as MyDOS/80 shows it.
+      render: text
+  - type: dropdown
+    id: repeat
+    attributes:
+      label: Does it happen again with the same steps?
+      options:
+        - "Yes"
+        - "No"
+        - Sometimes
+        - Not tried
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Screenshots or logs
+      description: Drag images or text files here (trs80gp F11 saves a screenshot). No ROM or commercial disk images, please.
