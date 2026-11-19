@@ -1,20 +1,23 @@
 # MyDOS/80
 
-MyDOS/80 is a new, experimental disk operating system that I am writing
-for the TRS-80 Model III and for the Model 4 and Model 4P running in their
-Model III mode. This repository is its public home: evaluation releases,
-documentation, and the place to report what you find.
+MyDOS/80 is a new, experimental disk operating system for the TRS-80
+Model III and for the Model 4 and Model 4P running in their Model III
+mode, designed and developed by Jim McCusker. This repository is its
+public home: evaluation releases, documentation, and the place to report
+what you find.
 
 > **The MyDOS/80 source code is not published here** and is not licensed
 > under an open-source license. This repository distributes evaluation disk
 > images and documentation only.
 
-**Evaluation permission, in short** ([NOTICE.md](NOTICE.md) is the full
-text): you may download and run the release, and make modified copies of
-its disk images, for personal, non-commercial evaluation and testing. You
-may not redistribute it publicly, distribute it commercially or publish
-modified versions without my prior written permission: please link to this
-repository's Releases page instead.
+**Evaluation license, in short** ([NOTICE.md](NOTICE.md) is the full
+text): you may download and run MyDOS/80, keep personal backup copies
+and make modified personal copies of its disk images for personal,
+non-commercial evaluation, education and testing, in emulators or on
+real hardware. Reviews, screenshots, videos and test results are
+welcome. You may not redistribute it, in original or modified form,
+set up mirrors, or distribute it commercially without my prior written
+permission: please link to this repository's Releases page instead.
 
 ## Status
 
@@ -114,7 +117,8 @@ version, where they came from).
 
 ## About
 
-MyDOS/80 is written by Jim McCusker. Copyright © 2026 Jim McCusker. All
-rights reserved; see [NOTICE.md](NOTICE.md). The software is provided "as
+MyDOS/80 is designed and developed by Jim McCusker using AI-assisted
+software development tools. Copyright © 2026 Jim McCusker. All rights
+reserved; see [NOTICE.md](NOTICE.md). The software is provided "as
 is", without warranty of any kind, to the extent permitted by applicable
 law.
