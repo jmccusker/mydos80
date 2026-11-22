@@ -21,14 +21,17 @@ permission: please link to this repository's Releases page instead.
 
 ## Status
 
-MyDOS/80 is in development. The current release is an **evaluation
-release for emulators**: it has been tested in the trs80gp emulator, not
-qualified on real hardware. Commands, screens and the native disk format
-may still change.
+MyDOS/80 is in development. **No release is available at present:**
+0.10 RC3, the first public evaluation release, was withdrawn on
+2026-11-22 after filesystem defects were found (see its release page); a
+corrected evaluation release is in development. Evaluation releases are
+for emulators: they are tested in the trs80gp emulator, not qualified on
+real hardware. Commands, screens and the native disk format may still
+change.
 
 | | |
 |---|---|
-| Current release | **0.10 RC3**, the first public evaluation release |
+| Current release | none: 0.10 RC3 was withdrawn on 2026-11-22 (filesystem defects); a corrected evaluation release is in development |
 | Tested in | trs80gp 2.5.8 (Linux and Windows builds) |
 | Machines | Model III; Model 4 and Model 4P in Model III mode |
 | Real hardware | not yet qualified (see below) |
@@ -52,6 +55,10 @@ may still change.
   programs.
 
 ## The evaluation release
+
+> **0.10 RC3 has been withdrawn** (see its release page); nothing is
+> available for download at present. What follows describes how an
+> evaluation release is packaged.
 
 Each release is a ZIP file on this repository's **Releases** page. It holds:
 
