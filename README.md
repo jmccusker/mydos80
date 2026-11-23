@@ -1,8 +1,8 @@
 # MyDOS/80
 
 MyDOS/80 is a new, experimental disk operating system for the TRS-80
-Model III and for the Model 4 and Model 4P running in their Model III
-mode, designed and developed by Jim McCusker. This repository is its
+Model III and for the Model 4 running in its Model III mode, designed
+and developed by Jim McCusker. This repository is its
 public home: evaluation releases, documentation, and the place to report
 what you find.
 
@@ -21,20 +21,24 @@ permission: please link to this repository's Releases page instead.
 
 ## Status
 
-MyDOS/80 is in development. **No release is available at present:**
-0.10 RC3, the first public evaluation release, was withdrawn on
-2026-11-22 after filesystem defects were found (see its release page); a
-corrected evaluation release is in development. Evaluation releases are
-for emulators: they are tested in the trs80gp emulator, not qualified on
-real hardware. Commands, screens and the native disk format may still
-change.
+MyDOS/80 is in development. **The current evaluation release is 0.10
+RC4, EMULATOR-VALIDATED ONLY** (see its release page). It corrects the
+filesystem defects for which 0.10 RC3 was withdrawn on 2026-11-22.
+Evaluation releases are for emulators: they are tested in the trs80gp
+emulator, not qualified on real hardware. Commands, screens and the
+native disk format may still change.
+
+> **Not validated on real hardware.** RC4 has not been tested on a real
+> TRS-80, on real one- or two-sided floppy drives, or with its disks'
+> track layout ("B") on real media. Its two-sided system disk and that
+> track layout are experimental on real hardware.
 
 | | |
 |---|---|
-| Current release | none: 0.10 RC3 was withdrawn on 2026-11-22 (filesystem defects); a corrected evaluation release is in development |
-| Tested in | trs80gp 2.5.8 (Linux and Windows builds) |
-| Machines | Model III; Model 4 and Model 4P in Model III mode |
-| Real hardware | not yet qualified (see below) |
+| Current release | 0.10 RC4 (EMULATOR-VALIDATED ONLY); 0.10 RC3 was withdrawn on 2026-11-22 |
+| Tested in | 16 scripted sessions in a patched build of trs80gp 2.5.8 on Linux; 8 sessions through the Windows launcher with the public trs80gp 2.5.8 on Windows 11 |
+| Machines | Model III; Model 4 in Model III mode (the Model 4P is not part of RC4) |
+| Real hardware | not qualified: no real TRS-80, floppy drive or media (see below) |
 
 ## What it does
 
@@ -56,21 +60,24 @@ change.
 
 ## The evaluation release
 
-> **0.10 RC3 has been withdrawn** (see its release page); nothing is
-> available for download at present. What follows describes how an
-> evaluation release is packaged.
+Each release is a ZIP file on this repository's **Releases** page.
+0.10 RC4 holds:
 
-Each release is a ZIP file on this repository's **Releases** page. It holds:
+- fifteen disk images (DMK): a two-sided system disk with everything
+  installed, a two-sided system disk with the standard packages and a
+  one-sided one, a module disk for each, native sample and practice
+  disks, sample disks in five traditional formats (made with my own
+  tools, holding only text files), and three example disks that show how
+  errors are reported and how a damaged system disk is recovered;
+- two books (searchable PDF): the *User's Manual* and *Under the Hood*
+  (the system architecture), edition 1.10;
+- a Quick Start, guided tests, release notes, known limitations, a
+  feedback form, and a Windows launcher that starts trs80gp on fresh,
+  checked copies of the disks.
 
-- twelve disk images (DMK): a system disk with everything installed, a
-  minimal system disk and a module disk for building your own system,
-  native sample and practice disks, sample disks in five traditional
-  formats (made with my own tools, holding only text files), and two
-  example disks that show how errors are reported;
-- three books (searchable PDF): *MyDOS/80 - A Guided Tour*, the
-  *User's Manual* and *Under the Hood* (the system architecture);
-- a Quick Start, guided tests, known limitations, a feedback form, and a
-  Windows launcher that starts trs80gp on fresh copies of the disks.
+Its boot screen reads "RC4 CANDIDATE C2": the disk images are exactly
+the release candidate that passed the emulator sessions, unchanged
+(the release notes explain).
 
 No ROM images and no other publishers' DOS files are included.
 
@@ -80,15 +87,16 @@ No ROM images and no other publishers' DOS files are included.
    against the one on the release page.
 2. Get trs80gp 2.5.8 from its author's site, http://48k.ca/trs80gp.html
    (one download with the Windows, Linux and macOS builds).
-3. Unpack the release and open `docs/MyDOS80-Guided-Tour.pdf`. **Start
-   with the Guided Tour**: its first chapter sets up trs80gp on Windows,
-   Linux or macOS, and the rest walks through the whole system one short
-   exercise at a time.
+3. Unpack the release and read `QUICK_START.txt`: which disk goes in
+   which drive, how to start it on Windows (the launcher) or on Linux
+   and macOS, and the first commands. `GUIDED_TESTS.txt` then walks
+   through the system with the expected result of every step, and
+   `KNOWN_LIMITATIONS.txt` says what does not work yet.
 
-The Windows and Linux steps were run for this release; the macOS steps
-follow trs80gp's own documentation and were not run (I had no Mac to test
-on). A Model 4P also needs your own TRSDOS 6.2.1 system disk, from which
-the 4P loads its Model III ROM image; the tour's Exercise 15.2 explains.
+The public trs80gp 2.5.8 has a known floppy-timing fault that can show
+as an occasional "Disk read error" (`KNOWN_LIMITATIONS.txt`). The macOS
+steps follow trs80gp's own documentation and were not run (I had no Mac
+to test on). The Guided Tour book of RC3 has not been redone for RC4.
 
 ## Please read: experimental software
 
@@ -100,10 +108,22 @@ the 4P loads its Model III ROM image; the tour's Exercise 15.2 explains.
 trs80gp writes every change straight back into the image file you give it,
 so always start it on copies (the Windows launcher makes them for you).
 
+> **Windows: trs80gp may occasionally crash when it closes.** In one of
+> eight scripted Windows sessions the public trs80gp 2.5.8 closed with a
+> Windows error at the very end, after everything had been saved;
+> repeated three times, it did not recur, and the disks were identical in
+> every run. It is a fault of the emulator on Windows, not of MyDOS/80.
+> If trs80gp closes with an error, start it again on the same run folder
+> (`Start-MyDOS80.ps1 -RunFolder <folder>`) and check your files with
+> DIR. Keep using disposable copies of the disk images.
+
 ### Real hardware
 
 MyDOS/80's earlier hardware test disks have run on real Model III
-machines, but **this release has not been qualified on real hardware**.
+machines, but **this release has not been qualified on real hardware**:
+not on a real TRS-80, not on real one- or two-sided floppy drives and not
+on real media. Its two-sided system disk and its disks' track layout are
+experimental on real hardware.
 If you try it on a real TRS-80, use only disposable floppies (writing an
 image erases the whole disk), never an original or irreplaceable disk,
 and please tell me exactly what happened, especially if it failed.
