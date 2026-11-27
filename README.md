@@ -8,7 +8,23 @@ what you find.
 
 > **The MyDOS/80 source code is not published here** and is not licensed
 > under an open-source license. This repository distributes evaluation disk
-> images and documentation only.
+> images, the HWLINK hardware tester, and documentation.
+
+## New: the HWLINK Tester for the Model 4P (experimental)
+
+**[HWLINK Tester 0.1.0-E01](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.1.0-e01)**
+is a Linux program (Fedora or Ubuntu, Python 3.10+, no development tools
+needed) that checks a **real TRS-80 Model 4P** over a serial cable and
+writes one plain-text report: the ROM serial loader and serial chip, CPU,
+memory, video, keyboard and, **read only**, the floppy controller and
+drives. It never writes to a disk and installs nothing on the 4P.
+
+> **EXPERIMENTAL: not yet validated on a real Model 4P.** It has passed its
+> tests against a simulated 4P on Ubuntu and Fedora; the first real runs
+> are what it is for. Failed or unexpected results are just as valuable as
+> successes: please report them.
+
+Installation, use and reporting: **[hwtest/README.md](hwtest/README.md)**.
 
 **Evaluation license, in short** ([NOTICE.md](NOTICE.md) is the full
 text): you may download and run MyDOS/80, keep personal backup copies
@@ -134,7 +150,8 @@ Every report helps, and **a failure or an unexpected result is just as
 useful to me as a success**.
 
 Open an issue in this repository and choose the matching form: a bug
-report, a feature request, or a hardware compatibility report. For a
+report, a feature request, a hardware compatibility report, or an
+**HWLINK tester report** (attach the tester's `REPORT.txt`). For a
 question, open a blank issue. [REPORTING.md](REPORTING.md) says what makes a
 report easy to reproduce.
 

@@ -1,0 +1,163 @@
+MyDOS/80 HWLINK Tester 0.1.0-E01 - user manual
+===============================================
+Copyright (c) 2026 Jim McCusker. Designed and developed by Jim McCusker.
+
+CONTENTS
+  1 Installation          5 The test, step by step
+  2 Commands              6 Results, reports, comparison
+  3 Serial ports          7 Safety
+  4 The cable             8 Troubleshooting
+
+1 INSTALLATION
+--------------
+The release is one folder; it runs where you unpack it:
+    tar xzf mydos80-hwtest-0.1.0-E01.tar.gz
+    cd mydos80-hwtest-0.1.0-E01
+    ./mydos80-hwtest
+It uses the system's python3 (3.10 or later; standard library only) and
+nothing else. Fedora and Ubuntu desktop systems have it already; if
+python3 is missing, the launcher says how to install it (Fedora: sudo dnf
+install python3; Ubuntu: sudo apt install python3). The tester never
+installs anything itself.
+
+Optional: ./install.sh copies the folder to
+~/.local/share/mydos80-hwtest/0.1.0-E01 and creates ~/.local/bin/
+mydos80-hwtest (asks first, needs no password); ./uninstall.sh removes
+both (your results are kept).
+
+Check the download first: sha256sum -c mydos80-hwtest-0.1.0-E01.tar.gz.sha256
+The preflight also checks every file of the release (SHA256SUMS).
+
+2 COMMANDS
+----------
+  mydos80-hwtest                 the menu (everything below)
+  mydos80-hwtest preflight       check this computer; changes nothing
+  mydos80-hwtest ports           list serial ports and whether you may
+                                 use them
+  mydos80-hwtest line-check [PORT]
+                                 open the port, switch DTR and RTS on,
+                                 read the modem lines and listen for 3 s;
+                                 SENDS NOTHING. With the cable connected
+                                 and the 4P on, CD or DSR is usually on.
+  mydos80-hwtest run [--port PORT] [--label NAME]
+                                 the test of the 4P (section 5)
+  mydos80-hwtest selftest [--full]
+                                 the whole test against a simulated 4P
+                                 (no hardware, no port); --full adds a
+                                 simulated disk (about 12 minutes)
+  mydos80-hwtest report DIR      rebuild DIR/REPORT.txt
+  mydos80-hwtest compare A B     what differs between two results
+  mydos80-hwtest bundle DIR      DIR as DIR.tar.gz (if Jim asks for the
+                                 detailed records)
+  mydos80-hwtest version
+Option for all: --results DIR (default ~/mydos80-hwtest-results).
+
+3 SERIAL PORTS
+--------------
+USB serial adapters appear as /dev/ttyUSB0 (FTDI, Prolific, CH340, ...)
+or /dev/ttyACM0; built-in ports as /dev/ttyS0. Stable names, which do
+not change when you plug things in, are in /dev/serial/by-id/ (the
+`ports` command shows them). You may use any of these names with --port.
+
+To open a serial port, your user must normally be in the group that owns
+it (Fedora and Ubuntu: "dialout"). The preflight tells you if you are
+not, and shows the command an administrator would use:
+    sudo usermod -aG dialout YOUR-USER-NAME
+then log out and log in again. The tester never runs this for you.
+
+Other programs: on some Ubuntu systems "brltty" claims CH340/CH341 USB
+adapters as Braille displays (the adapter then disappears); ModemManager
+may probe a new port for a few seconds. The preflight reports both and
+what you could do.
+
+4 THE CABLE
+-----------
+The 4P's RS-232 port is a DB-25 wired as DTE, like the PC's: a NULL-MODEM
+cable (or adapter) is needed. The 4P's ROM loader waits for its CD input
+(DB-25 pin 8): the PC's DTR must reach it, which most null-modem cables
+do. The settings are 19200 baud, 8 data bits, odd parity, 2 stop bits,
+no flow control; the tester sets them.
+If the 4P shows "Not Ready" and stays there after you started the test,
+the PC's DTR is not reaching pin 8: check the cable.
+
+5 THE TEST, STEP BY STEP
+------------------------
+Before: the 4P switched on, both floppy drives EMPTY, the cable
+connected. Start ./mydos80-hwtest, choose RUN THE 4P TEST.
+ a. Choose the port; read the safety summary; confirm; give the 4P a
+    short name (for example 4P-A) and optional notes (no personal
+    information).
+ b. "ENTER THE 4P SERIAL LOADER": hold RIGHT SHIFT, press and release
+    RESET, keep RIGHT SHIFT held for about 5 seconds. The 4P shows "Not
+    Ready" or "Ready". Press ENTER on the PC. The 4P shows "Found Baud
+    Rate" and "Loading", then the probe runs (the 4P's screen does not
+    change). If the 4P does not enter the loader: try again; if that
+    fails, hold RIGHT SHIFT and BREAK together while pressing RESET.
+ c. The same again for the diagnostics program. Then the 4P shows the
+    tester's dashboard ("MYDOS/80 HWTEST 0.1.0-E01" on the top line).
+    From now on, do not press RESET until the end.
+ d. System tests (about 3 minutes). During the video test the 4P's screen
+    shows patterns for a few seconds.
+ e. KEYBOARD: when asked, press ENTER on the PC, then press a few keys on
+    the 4P one at a time (not BREAK: it cancels a test).
+ f. FLOPPY: insert disks now if you want them tested (only disks you do
+    not mind being read; write-protected if possible; doors closed), and
+    say what is in each drive. Each drive: about 1 minute empty, 5-15
+    minutes with a disk. The heads move; the drive is only read.
+ g. Say whether the dashboard was readable. "TESTING COMPLETE" and the
+    report's location follow; the 4P may then be switched off.
+Ctrl-C stops at any time; everything so far is kept and reported.
+
+6 RESULTS, REPORTS, COMPARISON
+------------------------------
+Each test is one folder in ~/mydos80-hwtest-results/, named by date,
+time and the 4P's short name:
+  REPORT.txt        the report to send (UTF-8 text)
+  summary.json      the results in a fixed form (for `compare`)
+  steps.jsonl       every step as it happened
+  transcript.jsonl  every byte on the serial line, time-stamped
+  run.json, operator.json, uart-bits.json, survey-drive*.json,
+  inspection-drive*.json, diag/ (each diagnostic's records)
+A test that stopped still has its folder and its report (with what ran).
+`mydos80-hwtest compare A B` lists what differs between two results,
+leaving out what always differs (times, port names).
+
+7 SAFETY
+--------
+- Nothing is written to any disk; the release contains no program that
+  could (the preflight confirms it).
+- Programs are loaded into the 4P's RAM only; RESET or power-off removes
+  them. The 4P's ROM is not read (a read of the ROM area returns only a
+  checksum); disk contents are not sent to the PC (only a status per
+  sector).
+- No hard-disk, FreHD or other storage port is used, and the 4P's memory
+  map and CPU speed are not changed.
+- The floppy steps use the slowest step rate. A drive is examined beyond
+  its status only if a disk is seen to rotate (index pulses).
+- The PC side never runs sudo, installs nothing and changes no setting.
+
+8 TROUBLESHOOTING
+-----------------
+"permission denied" / port NOT USABLE: see section 3 (the dialout group;
+  log out and in after joining it).
+No port found: plug the adapter in, wait 5 s, run `ports` again; if it
+  appears and then disappears, see brltty (section 3). `dmesg` (may need
+  sudo) shows what the system did with the adapter.
+The 4P shows "Not Ready" and stays: the PC's DTR does not reach the 4P's
+  pin 8 (the cable): `line-check` shows the lines; try another null-modem
+  cable.
+"no answer to 55h in 30 s": the 4P was not in the serial loader: reset
+  again holding RIGHT SHIFT (and BREAK if needed), then press ENTER.
+"Error" on the 4P or the PC: the tester retries up to three times by
+  itself.
+The 4P shows a disk prompt or boots something: RIGHT SHIFT was not held
+  in time, or a disk is in drive :0: empty the drives and try again.
+"the UART profile cannot configure the stub": the 4P's serial chip
+  behaves differently from what this release supports. Stop; send the
+  report: it says what was measured.
+The connection was lost during the test: the report keeps everything up
+  to that point; send it. Check the cable is firmly seated.
+A floppy drive "READY but no index pulse": reported as ambiguous (no disk,
+  door open, or a drive that always reports READY); nothing more is done
+  with that drive.
+Anything else: send the report and the folder (`bundle`) to Jim.

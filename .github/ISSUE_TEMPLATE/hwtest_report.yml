@@ -1,0 +1,56 @@
+name: HWLINK tester report
+description: A report from the MyDOS/80 HWLINK Tester (Linux, Model 4P), self-test or real 4P, complete or stopped early.
+title: "HWTEST E01 report: "
+labels: ["hwtest", "real-hardware"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for running the HWLINK Tester. **A failure, a test that stopped early, or an
+        unexpected result is just as useful as a success.** Please attach the run's `REPORT.txt`
+        from `~/mydos80-hwtest-results/<date>-<time>-<name>/` (drag it into the box below).
+        Issues are public: the report contains no ROM or disk content and no user or computer
+        name, but please check the notes you typed. Do not upload ROM images or disk images.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What ran
+      options:
+        - Self-test only (no hardware)
+        - Real Model 4P, drives empty
+        - Real Model 4P, with a disk in a drive
+        - Something else (explain below)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Tester version
+      description: The output of `./mydos80-hwtest version`.
+      placeholder: MyDOS/80 HWLINK Tester 0.1.0-E01 (packaged)
+    validations:
+      required: true
+  - type: input
+    id: linux
+    attributes:
+      label: Linux and Python
+      description: For example "Fedora 45, Python 3.15" (`cat /etc/os-release`, `python3 -V`).
+    validations:
+      required: true
+  - type: input
+    id: adapter
+    attributes:
+      label: Serial adapter and cable
+      description: Adapter make and model (or a built-in port), and the cable or null-modem adapter used.
+  - type: textarea
+    id: report
+    attributes:
+      label: REPORT.txt
+      description: Attach the file here (drag and drop), or paste its contents.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What you saw
+      description: What the 4P's screen showed (a photo is welcome), anything you heard (drive noises), where it stopped, anything confusing in the instructions.

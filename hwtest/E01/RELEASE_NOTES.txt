@@ -1,0 +1,63 @@
+MyDOS/80 HWLINK Tester 0.1.0-E01 - release notes
+=================================================
+
+E01, the first evaluation release for testing a real Model 4P from Linux.
+
+WHAT IT DOES
+- Native Linux serial: 19200 baud, 8 data bits, odd parity, 2 stop bits,
+  no flow control, DTR and RTS on (the 4P ROM serial loader's settings);
+  parity and framing errors and driver-counted overruns are recorded.
+- The 4P ROM serial loader: the handshake, the load, retries, and a clear
+  instruction when the operator is needed.
+- The UART probe measures the 4P's serial status bits before the
+  diagnostics program (the HWLINK stub) is loaded with them; a profile
+  that is not complete and consistent stops the test (nothing is
+  guessed).
+- System: CPU clock, a CPU instruction check (ALU, rotate and shift
+  results and flags against a reference), the memory page map, RAM tests
+  of free memory, video RAM (saved and restored), keyboard (keys you
+  press), the clock-interrupt status port.
+- Floppy, READ ONLY: the WD1793 controller's registers; per drive:
+  selection, READY, index pulses, rotation speed, index pulse width, the
+  motor's stop; where a disk turns: stepping (track 0 found again), a
+  survey of what is recorded on every track of both sides at both
+  densities, a read of every sector the survey found, and seek accuracy
+  where the disk allows it.
+- Reports: REPORT.txt (UTF-8 text) and machine-readable records;
+  `compare` for two results (two machines, or a machine and an
+  emulator).
+
+WHAT IT DOES NOT DO
+- No disk is ever written or formatted (the write programs are not in
+  this release at all).
+- No hard disk, FreHD or other storage port is touched; the 4P's memory
+  map and CPU speed are not changed; nothing is installed on the 4P.
+- A medium is never assumed from READY alone: an empty drive may report
+  READY (seen in the trs80gp emulator); index pulses decide, and unclear
+  combinations are reported as ambiguous.
+- No geometry, density or number of sides is assumed: the survey reports
+  what it finds.
+
+HOW IT WAS TESTED (and how not)
+- Simulator: the whole test against the built-in virtual 4P (the
+  project's 4P model behind a Linux pseudo-terminal), through the real
+  serial code path. STATIC evidence, not hardware evidence.
+- The packaged release itself (this tarball) was extracted fresh and run
+  as an ordinary user on Ubuntu 24.04 (WSL2), Ubuntu 22.04.5 (Python
+  3.10) and Fedora 45 (Python 3.15), the last two in isolated minimal
+  environments built from the official images with only python3 added:
+  start-up, the preflight, port discovery, the self-tests, reports,
+  installation and removal, and the error cases (no python3, a Python
+  that is too old, a damaged package, a port that is missing or not
+  permitted, an unwritable results folder).
+- NOT yet tested: a full desktop installation of either system, a real
+  serial adapter, a real 4P. You are the first. Expect surprises, and
+  please report them.
+
+KNOWN LIMITATIONS
+- The 4P's real UART behaviour is measured by the probe on your machine;
+  if it differs from the documented one in a way the tester does not
+  support, the test stops with a clear message (that is a useful result).
+- Floppy data transfers need the 4P's fast (4 MHz) CPU clock, which the
+  tester measures; MFM (double density) reads are refused otherwise.
+- The keyboard test sees only the keys you press during its window.

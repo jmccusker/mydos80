@@ -13,6 +13,9 @@ form:
 - *Feature request*: something you would like MyDOS/80 to do.
 - *Hardware compatibility report*: any attempt on a real TRS-80 or a
   floppy emulator, successful or not.
+- *HWLINK tester report*: a run of the HWLINK Tester (Linux, Model 4P),
+  a self-test or a real 4P, complete or stopped early: attach its
+  `REPORT.txt` ([hwtest/README.md](hwtest/README.md), section 10).
 - For a question, open a blank issue.
 
 Please search the existing issues first; a "me too, on Windows" comment on
