@@ -1,23 +1,28 @@
-# MyDOS/80 HWLINK Tester 0.1.0-E01 (Linux, TRS-80 Model 4P)
+# MyDOS/80 HWLINK Tester (Linux, TRS-80 Model 4P)
 
 The HWLINK Tester is a Linux program that checks a real **TRS-80 Model
 4P** over a serial cable and writes one plain-text report you can send
-back. It is MyDOS/80's way of collecting real-hardware evidence from 4P
-owners. Designed and developed by Jim McCusker.
+back, with its own findings: what looks wrong or unusual, and why. It is
+MyDOS/80's way of collecting real-hardware evidence from 4P owners.
+Designed and developed by Jim McCusker.
 
-**Download:** [Releases: hwtest-v0.1.0-e01](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.1.0-e01)
-(`mydos80-hwtest-0.1.0-E01.tar.gz`, SHA-256
-`8cc92f455d47de644b7f00cadf9c278482cbb2c43a3224d98d3d058224eaf803`).
+| Release | Download | SHA-256 |
+|---|---|---|
+| **0.2.0-E02** (current) | [hwtest-v0.2.0-e02](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.2.0-e02): `mydos80-hwtest-0.2.0-E02.tar.gz` | `2e8752e31b06cdcf333e8639b34316c37cc25096e2508ea9c6b94c5c9ca9da16` |
+| 0.1.0-E01 (still available, unchanged) | [hwtest-v0.1.0-e01](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.1.0-e01): `mydos80-hwtest-0.1.0-E01.tar.gz` | `8cc92f455d47de644b7f00cadf9c278482cbb2c43a3224d98d3d058224eaf803` |
 
-> **EXPERIMENTAL. NOT YET VALIDATED ON A REAL MODEL 4P.** E01 has passed
-> its tests against a *simulated* 4P on Ubuntu 22.04, Ubuntu 24.04 and
-> Fedora 45, but it has never yet run with a real serial adapter or a real
-> 4P. The first real runs are exactly what this release is for. If it
-> stops with a message, or a test fails, that is a useful result: please
-> report it.
+This guide is written for E02. Sections 1 to 8 apply to E01 as well
+(read `0.1.0-E01` for `0.2.0-E02`); what only E02 does is marked **E02**.
 
-> **READ ONLY.** E01 never writes to, formats or creates a floppy disk:
-> the release contains no program that could. It loads small test
+> **EXPERIMENTAL. NOT YET VALIDATED ON A REAL MODEL 4P.** Both releases
+> have passed their tests against a *simulated* 4P on Ubuntu 22.04,
+> Ubuntu 24.04 and Fedora 45, but neither has yet run with a real serial
+> adapter and a real 4P. The first real runs are exactly what they are
+> for. If the tester stops with a message, or a test fails, that is a
+> useful result: please report it.
+
+> **READ ONLY.** The tester never writes to, formats or creates a floppy
+> disk: the release contains no program that could. It loads small test
 > programs into the 4P's memory through the 4P's own ROM serial loader
 > (nothing is installed on the 4P; RESET or power-off removes them), and
 > it never uses a hard disk, a FreHD or other storage. On the PC it needs
@@ -32,11 +37,14 @@ Contents: [1 What you need](#1-what-you-need) ·
 [6 Serial ports and permissions](#6-serial-ports-and-permissions) ·
 [7 Connecting the 4P](#7-connecting-the-4p) ·
 [8 Running the 4P test](#8-running-the-4p-test) ·
-[9 Your report](#9-your-report) ·
-[10 Sending results](#10-sending-results) ·
-[11 Troubleshooting](#11-troubleshooting) ·
-[12 Uninstalling](#12-uninstalling) ·
-[13 Status and limitations](#13-status-and-limitations)
+[9 Findings, follow-ups and the trs80gp comparison (E02)](#9-findings-follow-ups-and-the-trs80gp-comparison-e02) ·
+[10 If the connection is lost (E02)](#10-if-the-connection-is-lost-e02) ·
+[11 Your report: finding and sending it](#11-your-report-finding-and-sending-it) ·
+[12 More commands and options](#12-more-commands-and-options) ·
+[13 Moving from E01 to E02](#13-moving-from-e01-to-e02) ·
+[14 Troubleshooting](#14-troubleshooting) ·
+[15 Uninstalling](#15-uninstalling) ·
+[16 Status, performance and limitations](#16-status-performance-and-limitations)
 
 ## 1. What you need
 
@@ -55,40 +63,42 @@ so too.
 
 ## 2. Download and verify
 
-From the [release page](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.1.0-e01)
+From the [E02 release page](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.2.0-e02)
 download both files into one folder, for example `~/Downloads`:
 
-- `mydos80-hwtest-0.1.0-E01.tar.gz`
-- `mydos80-hwtest-0.1.0-E01.tar.gz.sha256`
+- `mydos80-hwtest-0.2.0-E02.tar.gz`
+- `mydos80-hwtest-0.2.0-E02.tar.gz.sha256`
 
 Or in a terminal:
 
     cd ~/Downloads
-    curl -LO https://github.com/jmccusker/mydos80/releases/download/hwtest-v0.1.0-e01/mydos80-hwtest-0.1.0-E01.tar.gz
-    curl -LO https://github.com/jmccusker/mydos80/releases/download/hwtest-v0.1.0-e01/mydos80-hwtest-0.1.0-E01.tar.gz.sha256
+    curl -LO https://github.com/jmccusker/mydos80/releases/download/hwtest-v0.2.0-e02/mydos80-hwtest-0.2.0-E02.tar.gz
+    curl -LO https://github.com/jmccusker/mydos80/releases/download/hwtest-v0.2.0-e02/mydos80-hwtest-0.2.0-E02.tar.gz.sha256
 
 Then check it:
 
-    sha256sum -c mydos80-hwtest-0.1.0-E01.tar.gz.sha256
+    sha256sum -c mydos80-hwtest-0.2.0-E02.tar.gz.sha256
 
-It must print `mydos80-hwtest-0.1.0-E01.tar.gz: OK`. If not, download it
+It must print `mydos80-hwtest-0.2.0-E02.tar.gz: OK`. If not, download it
 again.
 
 ## 3. Unpack, and the optional installer
 
-    tar xzf mydos80-hwtest-0.1.0-E01.tar.gz
-    cd mydos80-hwtest-0.1.0-E01
+    tar xzf mydos80-hwtest-0.2.0-E02.tar.gz
+    cd mydos80-hwtest-0.2.0-E02
     ./mydos80-hwtest version
 
-`version` prints `MyDOS/80 HWLINK Tester 0.1.0-E01 (packaged)`. The tester
+`version` prints `MyDOS/80 HWLINK Tester 0.2.0-E02 (packaged)`. The tester
 runs from this folder as it is; nothing else is needed.
 
 **Optional:** `./install.sh` copies the folder to
-`~/.local/share/mydos80-hwtest/0.1.0-E01/` and creates the command
+`~/.local/share/mydos80-hwtest/0.2.0-E02/` and creates the command
 `~/.local/bin/mydos80-hwtest`, so you can type `mydos80-hwtest` from
 anywhere. It asks before doing anything, needs no password and changes
-nothing outside your home directory. (If `~/.local/bin` is not yet on your
-`PATH`, it says so: log out and in again, or use the full path.)
+nothing outside your home directory. (If `~/.local/bin` is not yet on
+your `PATH`, it says so: log out and in again, or use the full path.) If
+you installed E01 before, see [section 13](#13-moving-from-e01-to-e02)
+first.
 
 In the rest of this guide, `./mydos80-hwtest` means "in the unpacked
 folder"; after `./install.sh` you can type `mydos80-hwtest` instead.
@@ -115,15 +125,16 @@ found` is expected.
 The self-test runs the **whole** test, exactly as it would run on a 4P,
 against a simulated 4P built into the tester (through a Linux
 pseudo-terminal). No serial port is opened and no hardware is used. It
-takes about 2 minutes; the steps scroll past, marked `(automatic)` where
-you would normally act. It must end with:
+takes about 1-2 minutes; the steps scroll past, marked `(automatic)`
+where you would normally act. It must end with:
 
-    SELF-TEST PASSED -- MyDOS/80 HWLINK Tester 0.1.0-E01
+    SELF-TEST PASSED -- MyDOS/80 HWLINK Tester 0.2.0-E02
     Report: /home/YOU/mydos80-hwtest-results/DATE-TIME-selftest/REPORT.txt
 
-`./mydos80-hwtest selftest --full` adds a simulated disk with known faults
-in the simulated drive :1 (about 12 minutes). The self-test's report is a
-good preview of a real one.
+`./mydos80-hwtest selftest --full` adds a simulated disk with known
+faults in the simulated drive :1 (about 8 minutes with E02; about 12 with
+E01). Its report is a good preview of a real one: E02's FINDINGS section
+shows the faults it found, and the automatic follow-up's answers.
 
 ## 6. Serial ports and permissions
 
@@ -213,15 +224,16 @@ opens the menu; choose **4 = RUN THE 4P TEST** (or run
 3. **Second serial-loader operation (the diagnostics program).** The
    tester asks for the same again: RIGHT SHIFT + RESET, *Ready*/*Not
    Ready*, ENTER. After *Loading*, the 4P shows the tester's dashboard,
-   **`MYDOS/80 HWTEST 0.1.0-E01`** on its top line, with a table of tests
-   that changes as they run. **From now on, do not press RESET or BREAK on
-   the 4P** until the end.
+   **`MYDOS/80 HWTEST 0.2.0-E02`** on its top line, with a table of tests
+   that changes as they run (with E02 the screen is redrawn about every 2
+   seconds while a test runs, and at once when a result changes). **From
+   now on, do not press RESET or BREAK on the 4P** until the end.
 
 4. **System tests** (about 3 minutes): CPU clock, CPU instruction check,
    memory map, video RAM (test patterns on the 4P's screen for a few
    seconds), the clock-status port, RAM. **Keyboard:** when asked, press
    ENTER on the PC, then press a few keys on the 4P one at a time (not
-   BREAK).
+   BREAK) during the time the tester gives.
 
 5. **Floppy (read only).** The tester asks what is in each drive. You may
    leave both empty, or insert a disk you do not mind being read
@@ -231,52 +243,162 @@ opens the menu; choose **4 = RUN THE 4P TEST** (or run
    the slowest step rate), survey what is recorded on both sides at both
    densities, and read every sector it found (only a status per sector
    comes back to the PC; disk contents never do). Each drive: about 1
-   minute empty, 5-15 minutes with a disk.
+   minute empty, a few minutes with a disk (E02 reads a track in two
+   revolutions).
 
-6. **The end.** The tester asks whether the dashboard was readable, then
+6. **Follow-up (E02, automatic).** The tester reads its own results so
+   far and runs the read-only checks that settle what is uncertain
+   (section 9). Nothing is asked; it usually takes seconds to a few
+   minutes.
+
+7. **The end.** The tester asks whether the dashboard was readable, then
    shows **`TESTING COMPLETE`** and the path of your report; the 4P shows
    *TESTING COMPLETE* too. You may now switch the 4P off.
 
 Ctrl-C on the PC stops at any time; everything so far is kept and
 reported. A complete test takes about 15-40 minutes.
 
-## 9. Your report
+## 9. Findings, follow-ups and the trs80gp comparison (E02)
+
+**Findings.** Near the top of `REPORT.txt`, after the summary, the
+FINDINGS section is the tester's own reading of the results. Each
+finding has a severity:
+
+| | |
+|---|---|
+| FAULT | something a working machine does not do (a RAM bit that fails, a CPU result that differs, a controller register that does not hold its value) |
+| WARNING | unexpected, with more than one possible cause (a drive's speed, retransmissions on the link, an unreadable sector) |
+| NOTE | unusual but explainable (a key held down, the 2 MHz clock, an answer you gave that the measurement disagrees with) |
+| INFO | a measurement the project is collecting (for example the 4P's serial-loader messages, its UART bits, a drive's rotation and index pulse) |
+
+Each one gives the measured values and its possible causes; none names a
+chip or a board location (a failing RAM bit is reported as a data bit
+and an address range). On a healthy 4P with empty drives you should see
+nothing, or INFO lines only.
+
+**Automatic follow-up.** Where one more read-only measurement would
+settle a finding, the tester runs it straight away in the same session:
+for example ten reads of a sector that failed (a hard error, a weak
+sector, or one that reads now), a fresh survey of a track with missing
+sector headers, a RAM range tested again with more passes, the clock
+measured again. At most two rounds of twelve checks; a check is never
+repeated. The answer appears under the finding it followed up
+("follow-up result: ..."). `--no-adaptive` turns this off;
+`./mydos80-hwtest followup DIR` runs the follow-up checks of an earlier
+result in a new session (it asks you to confirm the same disk is in the
+drive, and checks it).
+
+**Comparison with trs80gp.** After the findings the report compares
+your 4P with what the trs80gp emulator's 4P measured during the
+project's emulator tests (each value with its reference, for example
+HL-TGP-16: trs80gp reports an empty drive as READY). Where your real 4P
+differs from the emulator is exactly the kind of result the project is
+looking for. `./mydos80-hwtest compare DIR --reference trs80gp` shows it
+on its own.
+
+## 10. If the connection is lost (E02)
+
+A loose cable, a RESET pressed by mistake, or a USB adapter that
+disconnects no longer ends the test. The tester asks whether to
+reconnect; then:
+
+1. it tries the 4P as it is (a cable that came loose: the diagnostics are
+   still running);
+2. if the 4P does not answer, it asks you to put the 4P into the serial
+   loader again (RIGHT SHIFT + RESET, as in section 8) and reloads the
+   diagnostics;
+3. it continues where it stopped. What finished is not run again, and
+   before a drive is tested further its disk is identified again (by its
+   sector headers and a few sectors' checksums): if the disk is not the
+   one tested before, that drive is not tested further and the report
+   says so.
+
+At most two reconnections; after that the test ends as LINK LOST, and the
+report keeps and analyses everything that ran.
+
+## 11. Your report: finding and sending it
 
 Every test, self-test included, is one folder:
 
     ~/mydos80-hwtest-results/DATE-TIME-NAME/
         REPORT.txt          the report to send (plain UTF-8 text)
-        summary.json        the results in a fixed form
-        steps.jsonl, transcript.jsonl, run.json, ... (detailed records)
+        summary.json, analysis.json, steps.jsonl, transcript.jsonl, ...
 
-    ls ~/mydos80-hwtest-results/
+At the end the tester prints the full path of `REPORT.txt`. To find it
+later:
 
-lists them. `REPORT.txt` holds the evidence class (REAL-HARDWARE for a
-4P), the result, your Linux and Python versions, the serial adapter's
-driver and make, each test's outcome, the floppy measurements and any
-problems. It holds **no ROM content, no disk content and no user or
-computer name**; it does include the short name and notes you typed.
-Open it in any text editor before you send it.
+    ls -t ~/mydos80-hwtest-results/              # newest first
+    ls ~/mydos80-hwtest-results/*/REPORT.txt     # every report
 
-Other commands: `./mydos80-hwtest report DIR` rebuilds a folder's report;
-`./mydos80-hwtest compare DIR_A DIR_B` lists what differs between two
-results; `./mydos80-hwtest bundle DIR` packs a whole folder as
-`DIR.tar.gz` (only if asked for the detailed records).
+In a desktop file manager: your home folder, then
+`mydos80-hwtest-results` (it is not hidden), then the folder with the
+date, time and your 4P's short name. The menu's **show the last report**
+prints the newest report on screen.
 
-## 10. Sending results
+`REPORT.txt` holds the evidence class (REAL-HARDWARE for a 4P), the
+result, your Linux and Python versions, the serial adapter's driver and
+make, each test's outcome, the findings, the floppy measurements and any
+problems. With E02 it ends with a block of letters between `BEGIN
+MYDOS80-HWTEST DATA` and `END`: the same measurements in a form the
+analysis tools read (plus the disk's sector-header layout and per-sector
+read states). Please leave it in. The report holds **no ROM content, no
+disk content and no user or computer name**; it does include the short
+name and notes you typed. Open it in any text editor before you send it.
 
-**Every result is welcome, and a failure or an unexpected result is just
-as useful as a success.** A test that stopped early still has a report:
-send it.
-
-Open a [new issue](https://github.com/jmccusker/mydos80/issues/new/choose)
-here and choose **HWLINK tester report**. Attach `REPORT.txt` (drag it into
+**Sending it.** Every result is welcome, and **a failure or an unexpected
+result is just as useful as a success**; a test that stopped early still
+has a report: send it. Open a
+[new issue](https://github.com/jmccusker/mydos80/issues/new/choose) here
+and choose **HWLINK tester report**. Attach `REPORT.txt` (drag it into
 the text box), and say which Linux, serial adapter and cable you used and
 anything you saw or heard. A photo of the 4P's final screen is welcome.
 Issues are public: the report contains nothing personal, but check your
 notes. (Testers working with Jim directly may send it to him instead.)
+`./mydos80-hwtest bundle DIR` packs a whole results folder as
+`DIR.tar.gz`, only if Jim asks for the detailed records.
 
-## 11. Troubleshooting
+## 12. More commands and options
+
+| Command | |
+|---|---|
+| `./mydos80-hwtest drives` | **E02.** Which physical drive answers to each drive number (read only): the tester runs each drive for about 3 seconds while you watch the drive lights, then you put any disk into the drive that lit and take it out again; nothing is read from the disk |
+| `./mydos80-hwtest analyze DIR` | **E02.** The findings of a result: a results folder, or a `REPORT.txt` on its own (E02's, and E01's: then the analysis has what the text shows). Several at once: what changed between runs |
+| `./mydos80-hwtest followup DIR` | **E02.** A new session running DIR's follow-up checks (section 9) |
+| `./mydos80-hwtest compare A B` | what differs between two results (folders, or `REPORT.txt` files with E02), and which findings appear in one only |
+| `./mydos80-hwtest compare A --reference trs80gp` | **E02.** One result against trs80gp's recorded 4P values (or `virtual4p`: the simulator's model) |
+| `./mydos80-hwtest report DIR` | rebuild DIR's REPORT.txt (with E02, an E01 folder's too, with findings) |
+| `./mydos80-hwtest run --drives 0,1,2,3` | **E02.** The drive numbers to test (0-3; a 4P has two) |
+| `./mydos80-hwtest run --cylinders 80` | **E02.** Survey 80 cylinders: **only for drives you know are 80-track** |
+| `./mydos80-hwtest run --no-adaptive` | **E02.** No automatic follow-up |
+| `--results DIR` (before the command) | another results folder than `~/mydos80-hwtest-results` |
+
+## 13. Moving from E01 to E02
+
+Your results are safe: both releases keep them in
+`~/mydos80-hwtest-results/`, and neither the installers nor the
+uninstallers ever touch that folder. E02 can analyse your E01 results
+(`./mydos80-hwtest analyze DIR` or `report DIR` on an E01 folder, or
+`analyze` on an E01 `REPORT.txt`). E01 stays available on its release
+page; finishing a series of tests with E01 first is fine.
+
+- **If you ran E01 from its unpacked folder:** just unpack E02 next to it
+  (sections 2 and 3). The two folders are independent; delete E01's
+  folder when you no longer need it.
+- **If you installed E01 with `./install.sh`:** first remove the E01
+  installation (your results are kept), then install E02:
+
+      ~/.local/share/mydos80-hwtest/0.1.0-E01/uninstall.sh
+      cd ~/Downloads/mydos80-hwtest-0.2.0-E02
+      ./install.sh
+
+  (Installing E02 over E01 also works: the `mydos80-hwtest` command then
+  starts E02. But do not run E01's uninstaller after that: it removes the
+  command link whichever release it points to. If you want to remove E01
+  then, delete `~/.local/share/mydos80-hwtest/0.1.0-E01` by hand.)
+
+`mydos80-hwtest version` tells you which release the command starts.
+
+## 14. Troubleshooting
 
 | What you see | What to do |
 |---|---|
@@ -290,48 +412,64 @@ notes. (Testers working with Jim directly may send it to him instead.)
 | `no answer to 55h in 30 s` | the 4P was not in the serial loader: RIGHT SHIFT + RESET again (or RIGHT SHIFT + BREAK + RESET), then ENTER |
 | *Error* on the 4P | the tester retries up to three times by itself |
 | the 4P boots something or shows a disk prompt | RIGHT SHIFT not held in time, or a disk in drive :0: empty the drives, try again |
-| `the UART profile cannot configure the stub` | your 4P's serial chip behaves differently from what E01 supports: stop and send the report (it says what was measured) |
-| the connection was lost during the test | the report keeps everything so far; check the cable is seated; send the report |
+| `the UART profile cannot configure the stub` | your 4P's serial chip behaves differently from what the release supports: stop and send the report (it says what was measured) |
+| *The connection to the 4P was lost* | E02: answer yes to reconnect and follow the screen (section 10); E01: the report keeps everything so far; check the cable and send the report |
+| *the disk is not the one tested before* (E02) | a disk was changed while the connection was down: that drive's remaining tests were skipped; its earlier results stand |
 | a drive: *READY but no index pulse* | reported as ambiguous (no disk, door open, or a drive that always reports READY); nothing more is done with that drive |
+| the keyboard test saw no key | press keys during the time the tester gives (it says how long) |
+| the command `mydos80-hwtest` starts the wrong release, or is gone | section 13; `./install.sh` in the E02 folder (after its `uninstall.sh` if it says the copy exists) |
 | `SELF-TEST FAILED` | send the self-test's `REPORT.txt` |
 
-The full manual, `docs/USER_MANUAL.txt` in the package (also
-[here](E01/USER_MANUAL.txt)), has more.
+The package's `docs/USER_MANUAL.txt` (also here:
+[E02](E02/USER_MANUAL.txt), [E01](E01/USER_MANUAL.txt)) has more.
 
 **Stop at once** (Ctrl-C, then switch the 4P off) and report if there is
 smoke, a smell of burning or unusual heat; if a drive's motor runs or its
 head loads for more than a few seconds while the drives are empty; or if
 the laptop asks to install a driver or shows a dialog you do not expect.
 
-## 12. Uninstalling
+## 15. Uninstalling
 
 If you used `./install.sh`:
 
-    ~/.local/share/mydos80-hwtest/0.1.0-E01/uninstall.sh
+    ~/.local/share/mydos80-hwtest/0.2.0-E02/uninstall.sh
 
 It asks first, then removes the installed copy and the
 `~/.local/bin/mydos80-hwtest` command. If you did not install, simply
-delete the unpacked `mydos80-hwtest-0.1.0-E01` folder. Either way **your
+delete the unpacked `mydos80-hwtest-0.2.0-E02` folder. Either way **your
 results in `~/mydos80-hwtest-results/` are kept**; delete that folder
 yourself if you no longer want them.
 
-## 13. Status and limitations
+## 16. Status, performance and limitations
 
-- **Experimental; not validated on a real 4P** (above). Validated so far:
-  the release package itself, extracted fresh and run as an ordinary user
-  on Ubuntu 24.04, Ubuntu 22.04.5 (Python 3.10) and Fedora 45 (Python
-  3.15): start-up, preflight, port discovery, both self-tests, reports,
-  installation and removal, and the error cases (no python3, a Python that
-  is too old, a damaged package, a missing or forbidden port, an
-  unwritable results folder). The 4P test itself, `line-check`, and the
-  serial driver details (parity, modem lines, error counters) can only be
-  exercised with a real adapter and 4P.
+- **Experimental; not validated on a real 4P** (above). Validated so far,
+  for each release: the release package itself, extracted fresh and run
+  as an ordinary user on Ubuntu 24.04, Ubuntu 22.04.5 (Python 3.10) and
+  Fedora 45 (Python 3.15): start-up, preflight, port discovery, the
+  self-tests, reports, installation and removal, and the error cases (no
+  python3, a Python that is too old, a damaged package, a missing or
+  forbidden port, an unwritable results folder); for E02 also the
+  findings, the automatic follow-up, the analysis of E01 reports, the
+  drive identification, and (in the project's own tests) lost
+  connections, resets and a disk changed during a reconnection. The 4P
+  test itself, `line-check`, `drives` and the serial driver details can
+  only be exercised with a real adapter and 4P.
+- **Performance (E02, measured on the simulated 4P):** reading the
+  sectors of an 18-sector track takes 1.4 s instead of 4.6 s (two
+  revolutions instead of about one a sector); the floppy inspection of
+  the self-test's disk 125 s instead of 241 s; the full self-test about 8
+  minutes instead of about 12. Writes to the 4P's screen are combined and
+  limited to about one redraw every 2 seconds while a test runs.
 - The UART probe stops the test if the 4P's serial chip does not behave
-  as E01 supports; floppy data transfers need the 4P's 4 MHz clock, which
-  is measured; the keyboard test sees only the keys you press in its
-  window.
-- What is in the package, how it was built and validated, and every file's
-  checksum: [E01/PACKAGE.md](E01/PACKAGE.md). The package's own documents:
+  as supported; floppy data transfers need the 4P's 4 MHz clock, which is
+  measured; the keyboard test sees only the keys you press in its window.
+- What is in each package, how it was built and validated, and every
+  file's checksum: [E02/PACKAGE.md](E02/PACKAGE.md),
+  [E01/PACKAGE.md](E01/PACKAGE.md). The packages' own documents: E02
+  [Getting started](E02/GETTING_STARTED.txt),
+  [User manual](E02/USER_MANUAL.txt),
+  [Tester guide](E02/TESTER_GUIDE.txt),
+  [Release notes](E02/RELEASE_NOTES.txt); E01
   [Getting started](E01/GETTING_STARTED.txt),
   [User manual](E01/USER_MANUAL.txt),
   [Tester guide](E01/TESTER_GUIDE.txt),

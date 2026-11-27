@@ -1,0 +1,67 @@
+MyDOS/80 HWLINK Tester 0.2.0-E02 - tester guide
+================================================
+Copyright (c) 2026 Jim McCusker. Designed and developed by Jim McCusker.
+
+Thank you for testing. This guide says what to expect, what a good
+result looks like, and how to send it.
+
+BEFORE
+- Your 4P, its two floppy drives, the null-modem cable, the Linux laptop.
+- Leave both drives EMPTY at the start. For the floppy part you may use
+  one or two disks you do not mind being read (any format; write-protect
+  them if you can). Nothing is ever written, but please do not use your
+  only copy of anything precious.
+- Run `./mydos80-hwtest preflight` and fix what it reports (usually the
+  dialout group; it shows the command). Optionally `selftest`.
+
+DURING (about 15-40 minutes; floppy reads are faster than in E01)
+Follow the screen. You are needed for: two serial-loader resets at the
+start (RIGHT SHIFT held while pressing RESET, then ENTER on the PC),
+pressing a few keys on the 4P once, inserting disks if you want them
+tested, and two short questions. Do not press RESET or BREAK on the 4P
+after the second loader reset unless the tester asks.
+
+EXPECTED RESULTS (a healthy 4P)
+  Serial loader          PASS ("Found Baud Rate" and "Loading" on the 4P)
+  UART profile           PASS (data received, THRE and overrun bits found)
+  Stub (diagnostics)     PASS (the dashboard appears on the 4P)
+  CPU clock              about 4.0 MHz
+  CPU instruction check  PASS (3C1Ch D998h)
+  Memory map             PASS; ROM area read only; about 46 1-KB pages RAM
+  RAM, Video RAM         PASS, 0 errors
+  Keyboard               DONE, with the keys you pressed listed
+  Floppy controller      PASS
+  Empty drive            "not ready and no index pulse" (or, on some
+                         hardware, "READY but no index pulse": ambiguous,
+                         also fine to report)
+  Drive with a disk      "a medium rotates: about 300 rpm"; stepping PASS
+                         (39 steps out to track 0); the survey lists what
+                         it found (sides, densities, sectors per track);
+                         the surface read lists readable and unreadable
+                         sectors. Unreadable sectors on an old disk are a
+                         finding about the disk, not a failure of the test.
+  Findings              on a healthy 4P with empty drives: none, or INFO
+                         lines only (measurements the project collects)
+Anything different from this list is exactly what Jim wants to know.
+The report's first line states its evidence: REAL-HARDWARE for your 4P.
+
+AFTER
+1. The tester shows "TESTING COMPLETE" and the path of REPORT.txt, in
+   ~/mydos80-hwtest-results/<date>-<time>-<name>/.
+2. Open REPORT.txt if you like (plain text): check that it contains
+   nothing you would not want to send. It holds no ROM content, no disk
+   content, and no user or computer name; it does contain the 4P's short
+   name and notes you typed, and the serial adapter's make and model.
+3. Send REPORT.txt to Jim, by e-mail or whatever way you agreed, with a
+   line about anything you noticed (what the 4P's screen showed, noises,
+   anything unusual). A photo of the 4P's final screen is welcome.
+4. If Jim asks for the detailed records: `mydos80-hwtest bundle DIR` makes
+   DIR.tar.gz (it contains the serial transcript; still no ROM or disk
+   content).
+If the test stopped early, send the report anyway: it says how far it got.
+
+PLEASE ALSO TELL JIM
+- Your Linux (for example "Fedora 41" or "Ubuntu 22.04") if the report
+  does not show it, and whether the installation was easy.
+- Which serial adapter and cable you used.
+- Anything confusing in these instructions.

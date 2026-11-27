@@ -1,6 +1,6 @@
 name: HWLINK tester report
 description: A report from the MyDOS/80 HWLINK Tester (Linux, Model 4P), self-test or real 4P, complete or stopped early.
-title: "HWTEST E01 report: "
+title: "HWTEST report: "
 labels: ["hwtest", "real-hardware"]
 body:
   - type: markdown
@@ -8,7 +8,9 @@ body:
       value: |
         Thank you for running the HWLINK Tester. **A failure, a test that stopped early, or an
         unexpected result is just as useful as a success.** Please attach the run's `REPORT.txt`
-        from `~/mydos80-hwtest-results/<date>-<time>-<name>/` (drag it into the box below).
+        from `~/mydos80-hwtest-results/<date>-<time>-<name>/` (drag it into the box below;
+        with E02, please keep the block of letters at its end: it is the same measurements
+        for the analysis tools).
         Issues are public: the report contains no ROM or disk content and no user or computer
         name, but please check the notes you typed. Do not upload ROM images or disk images.
   - type: dropdown
@@ -27,7 +29,7 @@ body:
     attributes:
       label: Tester version
       description: The output of `./mydos80-hwtest version`.
-      placeholder: MyDOS/80 HWLINK Tester 0.1.0-E01 (packaged)
+      placeholder: MyDOS/80 HWLINK Tester 0.2.0-E02 (packaged)
     validations:
       required: true
   - type: input

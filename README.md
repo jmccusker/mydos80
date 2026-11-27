@@ -10,21 +10,27 @@ what you find.
 > under an open-source license. This repository distributes evaluation disk
 > images, the HWLINK hardware tester, and documentation.
 
-## New: the HWLINK Tester for the Model 4P (experimental)
+## The HWLINK Tester for the Model 4P (experimental)
 
-**[HWLINK Tester 0.1.0-E01](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.1.0-e01)**
+**[HWLINK Tester 0.2.0-E02](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.2.0-e02)**
 is a Linux program (Fedora or Ubuntu, Python 3.10+, no development tools
 needed) that checks a **real TRS-80 Model 4P** over a serial cable and
 writes one plain-text report: the ROM serial loader and serial chip, CPU,
 memory, video, keyboard and, **read only**, the floppy controller and
-drives. It never writes to a disk and installs nothing on the 4P.
+drives. It never writes to a disk and installs nothing on the 4P. New in
+E02: findings with likely causes, automatic read-only follow-up checks,
+a comparison with the trs80gp emulator's 4P, recovery from a lost
+connection, a drive-identification check and faster floppy reads.
+[E01](https://github.com/jmccusker/mydos80/releases/tag/hwtest-v0.1.0-e01)
+remains available unchanged.
 
 > **EXPERIMENTAL: not yet validated on a real Model 4P.** It has passed its
 > tests against a simulated 4P on Ubuntu and Fedora; the first real runs
 > are what it is for. Failed or unexpected results are just as valuable as
 > successes: please report them.
 
-Installation, use and reporting: **[hwtest/README.md](hwtest/README.md)**.
+Installation, use, upgrading from E01 and reporting:
+**[hwtest/README.md](hwtest/README.md)**.
 
 **Evaluation license, in short** ([NOTICE.md](NOTICE.md) is the full
 text): you may download and run MyDOS/80, keep personal backup copies
